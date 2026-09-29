@@ -4,11 +4,13 @@ on: [push, pull_request]
 jobs:
   scan:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        framework: [crewai, langgraph, autogen]
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Run Neural Sentinel
+      - name: Run Neural Sentinel - ${{ matrix.framework }}
         uses: hama-tech/neural-sentinel-action@v1
         with:
-          framework: 'crewai' # Options: crewai, langgraph, autogen
-          test_script: 'tests/test_security.py'
+          framework: ${{ matrix.framework }}
+          test_script: 'tests/test_${{ matrix.framework }}.py'
