@@ -1,0 +1,14 @@
+name: AI Security Scan
+on: [push, pull_request]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Neural Sentinel
+        uses: hama-tech/neural-sentinel-action@v1
+        with:
+          framework: 'crewai' # Options: crewai, langgraph, autogen
+          test_script: 'tests/test_security.py'
